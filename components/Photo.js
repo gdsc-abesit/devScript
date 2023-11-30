@@ -1,0 +1,62 @@
+import styled from '@emotion/styled'
+import { Box, Card, Text, useColorMode } from 'theme-ui'
+import Image from 'next/image'
+
+const Caption = styled(Text)`
+  display: block;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  max-width: 100%;
+  z-index: 0;
+`
+
+const Photo = ({
+    src,
+    width,
+    height,
+    alt,
+    showAlt,
+    dark,
+    loading,
+    ...props
+}) => {
+    // const [colorMode] = useColorMode()
+    const showCaption = showAlt && alt
+    return (
+        <Card
+            {...props}
+            as="figure"
+            sx={{
+                p: [0, 0, 0],
+                boxShadow: 'elevated',
+                borderRadius: 'extra',
+                position: 'relative',
+                maxWidth: '100%',
+                lineHeight: 0,
+                height: 'fit-content',
+                ...props.sx,
+                img: { objectFit: 'cover', objectPosition: 'center' }
+            }}
+        >
+            <Image
+                src={src}
+                alt={alt}
+                width={width}
+                height={height}
+                layout="responsive"
+                loading={loading || 'lazy'}
+            />
+            {showCaption && (
+                <Caption
+                    as="figcaption"
+                    variant={dark ? 'cards.translucentDark' : 'cards.translucent'}
+                >
+                    {alt}
+                </Caption>
+            )}
+        </Card>
+    )
+}
+
+export default Photo
